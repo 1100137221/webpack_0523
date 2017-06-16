@@ -1,33 +1,34 @@
 import React, {Component, PropTypes} from 'react';
-
+import {render} from 'react-dom';
 import { createLogger } from 'redux-logger'
 import thunk  from 'redux-thunk'
 import { applyMiddleware,createStore } from 'redux'
 import routeReducers from '../reducers/routeReducers'
 import {Provider} from 'react-redux';
-import qq from '../login/login';
+import Login from '../login/login';
+
+
 
 //use redux-logger
-//const logger = createLogger();
+const logger = createLogger();
 
 //combine middleware
-//const middleware = applyMiddleware(thunk,logger);
+const middleware = applyMiddleware(thunk,logger);
 
 //建立 store 
 //第一個參數為 reducer , 第二個為初始值
-//const store = createStore(routeReducers, {},middleware);
-
-
+const store = createStore(routeReducers, {},middleware);
 
 //const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 //const store = createStoreWithMiddleware(routeReducers);
-
 
 class App extends Component {
     render() {
         return (
             <div>
                 test123456
+                <Login test='123'></Login>
+
             </div>
         );
     }
@@ -37,12 +38,11 @@ App.propTypes = {
 
 };
 
-export default App;
 
-
-
-
-
+render(
+     <App />,
+    document.getElementById('app')
+);
 
 
 //當 state 改變,就更新 UI

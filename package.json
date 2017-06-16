@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --devtool eval --progress --colors",
-    "build": "webpack"
+    "dev": " NODE_ENV=dev webpack-dev-server --devtool eval --progress --colors",
+    "build": "NODE_ENV=prod webpack "
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "jquery": "^3.2.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"

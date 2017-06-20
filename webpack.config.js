@@ -11,6 +11,14 @@ const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body',
 });
 
+var providePlugin  = new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+        "window.Tether": 'tether',
+        "Tether":"tether"
+    })
+
 const extractCss = new ExtractTextPlugin('[name].css'); //隨著import的檔名輸出css檔案
 
 
@@ -19,7 +27,10 @@ const webpackConfig = {
     entry: {
         //app: './src/index.js',
         app: './src/containers/App.js',
-        vendor: ['react', 'react-dom']
+        vendor: ['react', 'react-dom'],
+        boostrap:'./node_modules/bootstrap/dist/js/bootstrap.min.js',
+        jquery:'./node_modules/jquery/dist/jquery.min.js',
+        tether:'./node_modules/tether/dist/js/tether.js'
     },
     output: {
         path: __dirname + '/dist',
@@ -42,7 +53,8 @@ const webpackConfig = {
           rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
@@ -80,7 +92,7 @@ const webpackConfig = {
         port: 8008,
     },
     // plugins 放置所使用的外掛
-    plugins: [HTMLWebpackPluginConfig,extractCss],
+    plugins: [HTMLWebpackPluginConfig,providePlugin,extractCss],
 };
 
 switch (process.env.NODE_ENV) {

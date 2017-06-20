@@ -37,7 +37,7 @@ class App extends Component {
 App.propTypes = {
 
 };
-
+console.log($);
 
 render(
      <App />,

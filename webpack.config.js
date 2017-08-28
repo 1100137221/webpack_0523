@@ -25,8 +25,8 @@ const extractCss = new ExtractTextPlugin('[name].css'); //隨著import的檔名�
 
 const webpackConfig = {
     entry: {
-        //app: './src/index.js',
-        app: './src/containers/App.js',
+        app: './src/index.js',
+        //app: './src/containers/App.js',
         vendor: ['react', 'react-dom'],
         boostrap:'./node_modules/bootstrap/dist/js/bootstrap.min.js',
         jquery:'./node_modules/jquery/dist/jquery.min.js',

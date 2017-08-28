@@ -23,6 +23,7 @@ const store = createStore(routeReducers, {},middleware);
 //const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 //const store = createStoreWithMiddleware(routeReducers);
 
+
 class App extends Component {
     render() {
         return (
@@ -73,11 +74,6 @@ App.propTypes = {
 
 };
 
-render(
-     <App />,
-    document.getElementById('app')
-);
-
 
 //當 state 改變,就更新 UI
 /*store.subscribe(()=>{
@@ -104,3 +100,109 @@ store.dispatch({type:types.INC,payload:1});*/
             return dispatch({type:types.FITCH_USER_ERROR,payload:err});            
         });
 });*/
+
+
+
+
+import TodoList from '../components/TodoList';
+import TodoAdd from '../components/TodoAdd';
+
+const todos = [
+    {
+      task: 'Install packages',
+      isCompleted: false
+    },
+    {
+      task: 'Add webpack.config.js',
+      isCompleted: false
+    },
+    {
+      task: 'Break UI into components',
+      isCompleted: false
+    }
+];
+
+class TodoApp extends Component {
+
+    constructor(props) {
+        super(props);
+      
+        this.state = {
+          todos
+        };
+
+        this._saveTask = this._saveTask.bind(this);
+        this._addTask = this._addTask.bind(this);
+        this._deleteTask = this._deleteTask.bind(this);
+        this._completeTask = this._completeTask.bind(this);
+
+    }
+      
+    _saveTask(idx, val) {
+        // copy array
+        let newTodos = [...this.state.todos];
+        // copy object
+        newTodos[idx] = Object.assign({}, newTodos[idx], { task: val });
+        this.setState({ todos: newTodos });
+    }
+
+
+
+    _deleteTask(idx) {
+        let newTodos = [...this.state.todos];
+        newTodos.splice(idx, 1);
+        this.setState({ todos: newTodos });
+    }
+
+    _addTask(val) {
+        // 一樣不能直接修改state
+        let newTodos = [...this.state.todos];
+        newTodos.push(
+          {
+            task: val,
+            isCompleted: false
+          });
+        this.setState({ todos: newTodos });
+    }
+    
+    _completeTask(idx) {
+        let newTodos = [...this.state.todos];
+        newTodos[idx] = Object.assign({}, newTodos[idx], { isCompleted: !newTodos[idx].isCompleted });
+        this.setState({ todos: newTodos });
+    }
+
+
+    render() {
+        return (
+            <div>
+                <h1>React Todo List</h1>
+                <TodoAdd addTask={this._addTask} />
+                <TodoList
+                    todos={this.state.todos}
+                    saveTask={this._saveTask}
+                    deleteTask={this._deleteTask}
+                    completeTask={this._completeTask}
+                    
+                />
+            </div>
+        );
+    }
+}
+
+
+import { bindActionCreators } from 'redux';
+import * as TodosActionCreators from '../actions/todo';
+
+class TodoListContainer extends Component {
+  render() {
+    let todosActionCreators = bindActionCreators(TodosActionCreators);
+    return (
+      <TodoList {...todosActionCreators} />
+    );
+  }
+}
+
+render(
+     <TodoListContainer />,
+    document.getElementById('app')
+);
